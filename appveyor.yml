@@ -1,0 +1,16 @@
+version: 1.0.0.{build}
+
+platform: Any CPU
+configuration: Release
+
+skip_tags: true
+  
+before_build:
+  - nuget restore "./MVVM.ShowChildWindow/MVVM.ShowChildWindow.sln"
+
+build:
+  project: MVVM.ShowChildWindow\MVVM.ShowChildWindow.sln
+  
+test:
+  assemblies:
+    - '**\*.Tests.dll'
