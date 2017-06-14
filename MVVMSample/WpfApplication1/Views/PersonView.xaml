@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="WpfApplication1.Views.PersonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:WpfApplication1.ViewModels"
+             xmlns:markupExtensions="clr-namespace:WpfApplication1.MarkupExtensions"
+             xmlns:enums="clr-namespace:WpfApplication1.Enums"
+             xmlns:converters="clr-namespace:WpfApplication1.Converters"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:PersonViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:GenderToTextConverter x:Key="GenderToTextConverter" />
+    </UserControl.Resources>
+        
+    <StackPanel>
+        <TextBlock Text="Имя:" />
+        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock Text="Фамилия:" />
+        <TextBox Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock Text="пол:" />
+        <ComboBox ItemsSource="{markupExtensions:EnumValues {x:Type enums:Gender}}"
+                  SelectedItem="{Binding Gender, Mode=TwoWay}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource GenderToTextConverter}}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </StackPanel>
+</UserControl>
