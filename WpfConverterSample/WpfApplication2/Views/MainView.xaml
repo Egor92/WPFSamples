@@ -1,0 +1,73 @@
+﻿<ContentControl x:Class="WpfApplication2.Views.MainView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:converters="clr-namespace:WpfApplication2.Converters">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <CheckBox IsChecked="{Binding Bool, Mode=TwoWay}"
+                  Grid.Row="0"
+                  Grid.Column="0" />
+
+        <Ellipse Fill="{Binding Bool, Mode=OneWay, Converter={converters:BoolToBrushConverter TrueBrush=Green, FalseBrush=Red}}"
+                 Grid.Row="0"
+                 Grid.Column="1" />
+
+        <Slider Value="{Binding A, Mode=TwoWay}"
+                Interval="1"
+                Minimum="0"
+                Maximum="255"
+                Grid.Row="1"
+                Grid.Column="0" />
+
+        <Ellipse Fill="{Binding A, Mode=OneWay, Converter={converters:IntToBrushConverter}}"
+                 Grid.Row="1"
+                 Grid.Column="1" />
+
+        <StackPanel Grid.Row="2"
+                    Grid.Column="0">
+            <Slider Value="{Binding R, Mode=TwoWay}"
+                    Interval="1"
+                    Minimum="0"
+                    Maximum="255" />
+            <Slider Value="{Binding G, Mode=TwoWay}"
+                    Interval="1"
+                    Minimum="0"
+                    Maximum="255" />
+            <Slider Value="{Binding B, Mode=TwoWay}"
+                    Interval="1"
+                    Minimum="0"
+                    Maximum="255" />
+        </StackPanel>
+
+        <Ellipse Grid.Row="2"
+                 Grid.Column="1">
+            <Ellipse.Fill>
+                <MultiBinding Converter="{converters:IntToBrushMultiConverter}">
+                    <Binding Path="A" Mode="OneWay" />
+                    <Binding Path="R" Mode="OneWay" />
+                    <Binding Path="G" Mode="OneWay" />
+                    <Binding Path="B" Mode="OneWay" />
+                </MultiBinding>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <TextBox Text="{Binding String, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Row="3"
+                 Grid.Column="0" />
+
+        <Ellipse Fill="{Binding String, Mode=OneWay, Converter={converters:StringToBrushConverter}}"
+                 Grid.Row="3"
+                 Grid.Column="1" />
+
+    </Grid>
+</ContentControl>
