@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="CheckListBoxApp.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:CheckListBoxApp.Behaviors"
+             xmlns:helpers="clr-namespace:CheckListBoxApp.Helpers"
+             xmlns:viewModels="clr-namespace:CheckListBoxApp.ViewModels"
+             mc:Ignorable="d"
+             d:DesignSource="{d:DesignInstance viewModels:MainViewModel}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="CheckListBoxStyle" TargetType="{x:Type ListBox}">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox Grid.Column="0">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:BindIsSelectedPathBehavior
+                                        IsSelectedPath="{Binding Path=(helpers:ListBoxProperties.IsCheckedPath), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" />
+                                </i:Interaction.Behaviors>
+                            </CheckBox>
+
+                            <TextBlock Grid.Column="1" Text="{Binding Name, Mode=OneWay}" />
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <UniformGrid Columns="3">
+        <ListBox Style="{StaticResource CheckListBoxStyle}" ItemsSource="{Binding PersonVMs}"
+                 helpers:ListBoxProperties.IsCheckedPath="IsSelected" />
+        <ListBox Style="{StaticResource CheckListBoxStyle}" ItemsSource="{Binding AnimalVMs}"
+                 helpers:ListBoxProperties.IsCheckedPath="IsPet" />
+        <ListBox Style="{StaticResource CheckListBoxStyle}" ItemsSource="{Binding ShapeVMs}"
+                 helpers:ListBoxProperties.IsCheckedPath="IsTriangle" />
+    </UniformGrid>
+</UserControl>
