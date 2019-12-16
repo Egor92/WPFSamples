@@ -1,4 +1,6 @@
 ﻿using System.Windows.Input;
+using MVVM.ShowChildWindow.Dialogs;
+using MVVM.ShowChildWindow.Dialogs.Abstractions;
 using ReactiveUI;
 using ReactiveCommand = ReactiveUI.ReactiveCommand;
 
@@ -9,7 +11,7 @@ namespace MVVM.ShowChildWindow.ViewModels
         #region Fields
 
         private readonly IDialogManager _dialogManager;
-        
+
         #endregion
 
         #region Ctor
@@ -21,51 +23,24 @@ namespace MVVM.ShowChildWindow.ViewModels
 
         #endregion
 
-        #region Number1
-
-        private int _number1;
-
-        public int Number1
-        {
-            get { return _number1; }
-            set { this.RaiseAndSetIfChanged(ref _number1, value); }
-        }
-
-        #endregion
-
-        #region Number2
-
-        private int _number2;
-
-        public int Number2
-        {
-            get { return _number2; }
-            set { this.RaiseAndSetIfChanged(ref _number2, value); }
-        }
-
-        #endregion
-
         #region ShowSummaCommand
 
         private ICommand _showSummaCommand;
 
         public ICommand ShowSummaCommand
         {
-            get { return _showSummaCommand ?? (_showSummaCommand = ReactiveCommand.Create(OnShowSumma)); }
+            get { return _showSummaCommand ??= ReactiveCommand.Create(OnShowSumma); }
         }
 
         private void OnShowSumma()
         {
-            var childVM = new ChildViewModel()
-            {
-                Sum = Number1 + Number2,
-            };
-            _dialogManager.Show(childVM);
+            var number1 = (int) _dialogManager.ShowDialog(DialogKeys.InputNumber, 1);
+            var number2 = (int) _dialogManager.ShowDialog(DialogKeys.InputNumber, 2);
+
+            var sum = number1 + number2;
+            _dialogManager.ShowDialog(DialogKeys.DisplayNumber, sum);
         }
 
         #endregion
-
-
-
     }
 }
