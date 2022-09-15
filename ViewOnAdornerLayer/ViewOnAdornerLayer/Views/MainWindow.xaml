@@ -1,0 +1,27 @@
+﻿<Window x:Class="ViewOnAdornerLayer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:ViewOnAdornerLayer.ViewModels"
+        xmlns:triggerActions="clr-namespace:ViewOnAdornerLayer.Interaction.TriggerActions"
+        Title="MainWindow"
+        Width="800"
+        Height="450"
+        d:DataContext="{d:DesignInstance {x:Type vm:MainWindowViewModel}}"
+        mc:Ignorable="d">
+    <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="ShowAdornerRequested" SourceObject="{Binding}">
+                <triggerActions:ShowAdornerTriggerAction />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Width="150">
+            <TextBox>
+            </TextBox>
+            <Button Command="{Binding ShowAdornerCommand, Mode=OneWay}" Content="Show adorner" />
+        </StackPanel>
+    </Grid>
+</Window>
